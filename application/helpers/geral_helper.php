@@ -23,7 +23,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
         return $estatus;
     }
 
+?>
 
+<?php
 /*
 Função para verificar os tipos de dados
 */
