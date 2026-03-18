@@ -104,19 +104,19 @@ public function inserir() {
 
             if($retornoDescricao['codigoHelper'] != 0){
                 $erros[] = ['codigo' => $retornoDescricao['codigoHelper'],
-                            'campo' => 'Codigo',
+                            'campo' => 'Descricao',
                             'msg' => $retornoDescricao['msg']];
             }
 
             if($retornoAndar['codigoHelper'] != 0){
                 $erros[] = ['codigo' => $retornoAndar['codigoHelper'],
-                            'campo' => 'Codigo',
+                            'campo' => 'Andar',
                             'msg' => $retornoAndar['msg']];
             }
             
             if($retornoCapacidade['codigoHelper'] != 0){
                 $erros[] = ['codigo' => $retornoCapacidade['codigoHelper'],
-                            'campo' => 'Codigo',
+                            'campo' => 'Capacidade',
                             'msg' => $retornoCapacidade['msg']];
             }
 
