@@ -137,5 +137,96 @@ class M_sala extends CI_Model
         //Envia o array $dados com as informações tratadas acima pela estrutura de decisão if
         return $dados;
     }
+
+    public function alterar($codigo, $descricao, $andar, $capacidade) {
+        try {
+            //Verifica se a sala está cadastrada
+            $retornoConsulta= $this->consultaSala($codigo);
+
+            if ($retornoConsulta['codigo'] ==10) {
+                //Inico a query para atualizaçõa
+                $query = "update tbl_sala set";
+
+                //comparção
+                if ($descricao !== '') {
+                    $query = "descricao = '$descricao', ";
+                }
+
+                if ($descricao !== '') {
+                    $query = "andar = $andar, ";
+                }
+
+                if ($descricao !== '') {
+                    $query = "capacidade = $capacidade, ";
+                }
+
+                //Termino a concatenação da query
+                $queryFinal = rtrim($query, ",") . "where codigo = $codigo";
+
+                //Executo a Query de atualização dos dados
+                $this->db->query($queryFinal);
+
+                //Verificar se atualização teve sucesso
+                if ($this->db->affected_rows() > 0) {
+                    $dados = array(
+                        'codigo' => 1,
+                        'msg' => 'Sala atualizada corretamente.'
+                    );
+
+                }else {
+                    $dados = array(
+                        'codigo' => 8,
+                        'msg' => 'Houve algum problema na autorização na tabela de sala.'
+                    );
+                }
+            }else {
+                $dados = array('codigo' => $retornoConsulta['codigo'],
+                                'msg' => $retornoConsulta['msg']);
+            }
+        }catch (Exception $e) {
+            $dados = array(
+                'codigo' =>00,
+                'msg' => 'ATENÇÃO: O seguinte erro aconteceu -> ' . $e->getMessage()
+            );
+        }
+        //Envia o array dados com as informações tratadas acima pela estrutura de decisão if
+        return $dados;
+    }
+
+    public function desativar($codigo) {
+        try {
+            $retornoConsulta = $this->consultaSala($codigo);
+
+            if ($retornoConsulta['codigo'] == 10) {
+
+                //Query de atualização de dados
+                $this->db->query("update tbl_sala set estatus = 'D' where codigo = $codigo");
+
+                //Verifica se atualizou
+                if ($this->db->affected_rows() >0) {
+                    $dados = array(
+                        'codigo' => 1,
+                        'msg' => 'Sala DESATIVADA corretamente.'
+                    );
+
+                }else {
+                    $dados = array(
+                        'codigo' => 8,
+                        'msg' => 'Houve algum problema na DESATIVAÇÃO da Sala.'
+                    );
+                }
+            }else {
+                $dados = array('codigo' => $retornoConsulta['codigo'],
+                                'msg' => $retornoConsulta['msg']);
+            }
+        }catch (Exception $e) {
+            $dados = array(
+                'codigo' => 00,
+                'msg'=> 'ATENÇÃO: O seguinte erro aconteceu -> ' . $e->getMessage()
+            );
+        }
+        //Envia o array de dados com as informações tratadas acima pela estrutura de decisão if
+        return $dados;
+    }
 }
 ?>
