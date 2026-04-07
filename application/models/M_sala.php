@@ -152,11 +152,11 @@ class M_sala extends CI_Model
                     $query = "descricao = '$descricao', ";
                 }
 
-                if ($descricao !== '') {
+                if ($andar !== '') {
                     $query = "andar = $andar, ";
                 }
 
-                if ($descricao !== '') {
+                if ($capacidade !== '') {
                     $query = "capacidade = $capacidade, ";
                 }
 
