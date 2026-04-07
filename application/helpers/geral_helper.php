@@ -121,4 +121,30 @@ function validarDados($valor, $tipo, $tamanhoZero = true) {
         //Valor default da variavel $retorno caso não ocorra erro
         return array('codigoHelper' => 0, 'msg' => 'Validação correta.');
     }
+
+
+    //Função para verificar se datas ou horarios iniciais são maiores entre eles
+    function compararDataHora($valorInicial, $valorFinal, $tipo) {
+        //String para HR
+        $valorInicial = strtotime($valorInicial);
+        $valorFinal = strtotime($valorFinal);
+
+        if ($valorInicial != '' && $valorFinal != '') {
+            if ($valorInicial > $valorFinal) {
+                switch ($tipo) {
+                case 'hora':
+                    return array('codigoHelper' => 13, 'msg' => 'Hora Final menor que a Hora inicial.');
+                    break;
+                case 'data':
+                    return array('codigoHelper' => 14, 'msg' => 'Data Final menor que Data inical.');
+                    break;
+                default:
+                    return array('codigoHelper' => 97, 'msg' =>'Tipo de verificação não definida.');
+                }
+            }
+        }
+
+        //Valor default da variavel $retorno caso não ocorra erro
+        return array('codigoHelper' => 0, 'msg' => 'Validação correta');
+    }
 ?>
