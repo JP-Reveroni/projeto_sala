@@ -66,6 +66,14 @@ function validarDados($valor, $tipo, $tamanhoZero = true) {
                 }
             }
             break;
+
+        case 'email':
+            //Valida se o valor está em formato de e-mail válido
+            if(!filter_var($valor, FILTER_VALIDATE_EMAIL)){
+                return array('codigoHelper' => 8, 'msg' =>'E-mail em formato inválido.');
+            }
+            break;
+
         case 'hora':
             //Verifico se tem padrao de hora
             if(!preg_match('/^(?:[01]\d|2[0-3]):[0-5]\d$/',$valor)){
@@ -108,6 +116,14 @@ function validarDados($valor, $tipo, $tamanhoZero = true) {
                         }
                     }
                     break;
+
+                case 'email':
+                    //Valida se o valor está em formato de e-mail válido
+                    if(!filter_var($valor, FILTER_VALIDATE_EMAIL)){
+                        return array('codigoHelper' => 8, 'msg' =>'E-mail em formato inválido.');
+                    }
+                    break;
+
                 case 'hora':
                     //Verifico se tem padrão de hora
                     if (!preg_match('/^(?:[01]\d|2[0-3]):[0-5]\d$/', $valor)) {
@@ -146,5 +162,39 @@ function validarDados($valor, $tipo, $tamanhoZero = true) {
 
         //Valor default da variavel $retorno caso não ocorra erro
         return array('codigoHelper' => 0, 'msg' => 'Validação correta');
+    }
+
+    /*
+    Função para verificar CPF valido
+    */
+    function validarCPF($cpf) {
+        // Remove tudo que não for numero
+        $cpf = preg_replace('/[^0-9]/', '', $cpf);
+
+        //CPF deve ter 11 digitos
+        if (strlen($cpf) != 11) {
+            return array('codigoHelper' => 15, 'msg' => 'CPF com menos de 11 digitos.');
+        }
+
+        // Rejeitar CPF com todos os digitos iguais
+        if (preg_match('/^(\d)\1{10}$/', $cpf)) {
+            return array('codigoHelper' => 16, 'msg' => 'CPF com todos os digitos iguais.');
+        }
+
+        //Calcula os digitos verificadores
+        for ($t =9; $t < 11; $t++) {
+            $soma = 0;
+            for ($i = 0; $i < $t; $i++) {
+                $soma += $cpf[$i] * (($t +1) - $i);
+            }
+            $digito =(10 * $soma) % 11;
+            $digito = ($digito == 10) ? 0 : $digito;
+
+            if ($cpf[$t] != $digito) {
+                return array('codigoHelper' => 17, 'msg' => 'CPF com digitos verificadores incorretos. ');
+            }
+        }
+
+        return array('codigoHelper' => 0, 'msg' => 'CPF válido');
     }
 ?>

@@ -71,4 +71,13 @@ create table tbl_mapa(
     foreign key (codigo_professor) references tbl_professor(codigo)
 );
 
-
+#CRIAR TABELA DE USUÁRIOS
+create table tbl_user(
+	id_usuario integer auto_increment primary key,
+	nome		varchar(30),
+	email		varchar(40),
+	usuario		varchar(20),
+	senha		char(32),
+	dtcria		datetime default now(),
+	estatus		char(01) default ''
+);

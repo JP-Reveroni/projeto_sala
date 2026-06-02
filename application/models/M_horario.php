@@ -53,7 +53,7 @@ class M_horario extends CI_Model
     }
 
     //Método privado auxiliar dessa class
-    private function consultarHorario($codigo, $horaInicial, $horaFinal) {
+    public function consultarHorario($codigo, $horaInicial, $horaFinal) {
         try {
             //Query para consultar dados de acordo com os parametros passados
             if($codigo != '') {
